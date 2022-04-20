@@ -4,12 +4,7 @@ import java.sql.*;
 
 public class Login implements LoginInterface {
     private boolean acception;
-
-    public Login() throws SQLException {
-
-
-
-    }
+    private String login;
 
 
     @Override
@@ -25,11 +20,15 @@ public class Login implements LoginInterface {
 
             try {
                 ResultSet resultSet = statement.executeQuery(log());
+                while (resultSet.next()) {
+                    String tryLogin = resultSet.getString(1);
+                    tryLogin = tryLogin.trim();
+                    if (tryLogin.equals(login)) {
+                        acception = true;
+                    } else {
+                        acception = false;
+                    }
 
-                if (resultSet != null) {
-                    acception = true;
-                } else {
-                    acception = false;
                 }
             } catch (Exception e) {
                 System.err.println(e);
@@ -42,11 +41,14 @@ public class Login implements LoginInterface {
     private String log() {
         System.out.println("Enter login");
         String login = sc.next();
+        login.trim();
+        this.login = login;
 
         System.out.println("Enter password");
         String password = sc.next();
+        password.trim();
 
-        String sql = "select * from mydbtest.users where name = \"" + login + "\" and password = \"" + password + "\";";
+        String sql = "select login from mydbtest.users where login = \'" + login + "\' and password = \'"  + password + "\';";
         return sql;
     }
 }
