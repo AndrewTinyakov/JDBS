@@ -12,8 +12,8 @@ public class Main {
         Start start = new Start();
 
         System.out.print("-----------------------");
+        System.out.println();
 
-        
 
 
     }
